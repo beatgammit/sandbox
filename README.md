@@ -1,6 +1,8 @@
 Intro
 =====
 
+This is where I put cool things or bugs so I can link to it from forums and bug-reports.
+
 Mobile Safari bug
 -----------------
 
