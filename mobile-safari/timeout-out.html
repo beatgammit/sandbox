@@ -1,0 +1,64 @@
+<html>
+
+<head>
+<title>JQuery Bug on Safari</title>
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /> 
+<meta name="apple-touch-fullscreen" content="yes" /> 
+<meta name="apple-mobile-web-app-capable" content="yes" /> 
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+<script src="http://code.jquery.com/jquery-1.5.2.min.js"></script>
+
+<script>
+var roach = new Image(),
+    width,
+    height,
+    xCur = 0
+    xMax = 200;
+
+roach.src = "images/cockroach.png";
+
+function longPoll (g) {
+    $.ajax({
+        url: './dummy',
+        type: "GET",
+        dataType: 'json',
+        success: function () {
+            if (xCur === xMax) {
+                xCur = 0;
+            }
+
+            g.clearRect(0, 0, width, height);
+            g.drawImage(roach, xCur, 50);
+
+            xCur += 1;
+        }
+    });
+
+    setTimeout(function () {
+        longPoll(g);
+    }, 50);
+}
+
+$(document).ready(function () {
+    var context2D;
+
+    width = $("#bug").width();
+    height = $("#bug").height();
+
+    context2D = $("#bug")[0].getContext('2d');
+
+    longPoll(context2D);
+});
+
+</script>
+
+</head>
+
+<body>
+
+<canvas id="bug" width='250', height='200'>Your browser doesn't support canvas.</canvas>
+
+</body>
+</html>
